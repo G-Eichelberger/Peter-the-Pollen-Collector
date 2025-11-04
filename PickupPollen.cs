@@ -7,7 +7,7 @@ public class PickupPollen : MonoBehaviour
 
     private void Start()
     {
-        // Finds the GameManager attached to your Canvas (or wherever it lives)
+        // Finds the GameManager attached to Canvas
         gameManager = GameObject.Find("Canvas").GetComponent<GameManager>();
     }
 
