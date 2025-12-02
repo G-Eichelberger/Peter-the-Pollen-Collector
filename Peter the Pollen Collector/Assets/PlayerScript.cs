@@ -10,6 +10,9 @@ public class PlayerScript : MonoBehaviour
     float moveHorizontal, moveVertical;
     bool mousePressed = false;
     bool flip = false;
+    public static int jarFill = 7;
+    float jarTime = 0f;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,6 +22,7 @@ public class PlayerScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        NiceJar();
         Inputs();
         FlipCharacter();
         CharacterTilt();
@@ -70,7 +74,7 @@ public class PlayerScript : MonoBehaviour
     
     void CharacterTilt()
     {
-        if (mousePressed)
+        if (mousePressed && jarFill > 0)
         {
             transform.Rotate(new Vector3(0, 0, 270 * transform.localScale.x) * Time.deltaTime);
             rb.AddForce(Vector2.up * forceMagnitude, ForceMode2D.Impulse);
@@ -97,5 +101,16 @@ public class PlayerScript : MonoBehaviour
     void Flap()
     {
         gustParticle.Play();
+    }
+
+    void NiceJar()
+    {
+        jarTime += Time.deltaTime;
+
+        if(jarTime > 3.5f)
+        {
+            jarFill -= 1;
+        }
+
     }
 }

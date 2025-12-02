@@ -44,7 +44,7 @@ public class PickupPollen : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
 
-            GameManager.numberOfPollen++; // Count pollen instead of keys
+            PlayerScript.jarFill++;
             Destroy(gameObject); // Removes the pollen after collecting it
         }
     }
