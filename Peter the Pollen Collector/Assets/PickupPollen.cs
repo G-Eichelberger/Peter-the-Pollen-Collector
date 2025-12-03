@@ -8,11 +8,13 @@ public class PickupPollen : MonoBehaviour
     public float force = 1f;
     private Rigidbody2D rb;
     public GameObject playerObject;
+    
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         playerObject = GameObject.FindGameObjectWithTag("Player");
+        
     }
     
     private void Update()
@@ -43,7 +45,7 @@ public class PickupPollen : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-
+            PlayerScript.jarTime = 0f;
             PlayerScript.jarFill++;
             Destroy(gameObject); // Removes the pollen after collecting it
         }

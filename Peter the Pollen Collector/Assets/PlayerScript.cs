@@ -11,12 +11,15 @@ public class PlayerScript : MonoBehaviour
     bool mousePressed = false;
     bool flip = false;
     public static int jarFill = 7;
-    float jarTime = 0f;
-
+    public static float jarTime = 0f;
+    private AudioSource audioSource;
+    public AudioClip clip;
+    public ParticleSystem ps;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -84,14 +87,14 @@ public class PlayerScript : MonoBehaviour
             transform.Rotate(new Vector3(0, 0, -90 * transform.localScale.x) * Time.deltaTime);
         }
 
-        if (transform.eulerAngles.z > 45f && transform.eulerAngles.z < 50f)
-        {
-            transform.eulerAngles = new Vector3(0, 0, 45);
-        }
-        if(transform.eulerAngles.z < 315f && transform.eulerAngles.z > 310f)
-        {
-            transform.eulerAngles = new Vector3(0, 0, -45f);
-        }
+        //if (transform.eulerAngles.z > 45f && transform.eulerAngles.z < 50f)
+        //{
+        //    transform.eulerAngles = new Vector3(0, 0, 45);
+        //}
+        //if(transform.eulerAngles.z < 315f && transform.eulerAngles.z > 310f)
+        //{
+        //    transform.eulerAngles = new Vector3(0, 0, -45f);
+        //}
         
         if(rb.linearVelocity.y > 3f)
         {
@@ -107,10 +110,19 @@ public class PlayerScript : MonoBehaviour
     {
         jarTime += Time.deltaTime;
 
-        if(jarTime > 3.5f)
+        if(jarTime > 1.4f && jarFill > 0)
         {
             jarFill -= 1;
+            jarTime = 0f;
         }
 
+    }
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Pollen"))
+        {
+            ps.Play();
+            audioSource.PlayOneShot(clip);
+        }
     }
 }
