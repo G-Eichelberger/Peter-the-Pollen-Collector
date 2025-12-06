@@ -1,9 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameManager : MonoBehaviour
+public class NextLevelLoad : MonoBehaviour
 {
-    public static int numberOfPollen = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -15,9 +14,11 @@ public class GameManager : MonoBehaviour
     {
         
     }
-
-    public void ResetScene()
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-              SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex+1);
+        }
     }
 }

@@ -5,15 +5,16 @@ TagManager:
   serializedVersion: 3
   tags:
   - Pollen
+  - Ground
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - BEE
   - Water
   - UI
-  - 
-  - 
+  - BeeFollow
+  - Pollen
   - 
   - 
   - 
@@ -47,6 +48,9 @@ TagManager:
     locked: 0
   - name: Base
     uniqueID: 3830814867
+    locked: 0
+  - name: 
+    uniqueID: 4144692185
     locked: 0
   m_RenderingLayers:
   - Default

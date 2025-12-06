@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerScript : MonoBehaviour
 {
@@ -13,22 +14,51 @@ public class PlayerScript : MonoBehaviour
     public static int jarFill = 7;
     public static float jarTime = 0f;
     private AudioSource audioSource;
-    public AudioClip clip;
+    public AudioClip collectClip;
+    public AudioClip hurtClip;
     public ParticleSystem ps;
+    public ParticleSystem ps2;
+    public static Vector3 currentScale;
+    public bool damageTaken = false;
+    public float health = 3f;
+    public Image screenHurt;
+    public Image screenDark;
+    public GameObject screenUI;
+    bool dead = false;
+    public GameObject music;
+    public GameObject musicf;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         audioSource = GetComponent<AudioSource>();
+        jarFill = 7;
     }
 
     // Update is called once per frame
     void Update()
     {
-        NiceJar();
-        Inputs();
-        FlipCharacter();
-        CharacterTilt();
+        if(!dead)
+        {
+            NiceJar();
+            Inputs();
+            FlipCharacter();
+            CharacterTilt();
+            Hurt();
+        }
+        else
+        {
+            gameObject.SetActive(false);
+            music.SetActive(false);
+            musicf.SetActive(true);
+            Color currentColor = screenDark.color;
+            if(currentColor.a < 1)
+            {
+                currentColor.a += .75f;
+                screenDark.color = currentColor;
+            }
+            screenUI.SetActive(true);
+        }
     }
 
     void FixedUpdate()
@@ -63,7 +93,7 @@ public class PlayerScript : MonoBehaviour
 
     void FlipCharacter()
     {
-        Vector3 currentScale = transform.localScale;
+        currentScale = transform.localScale;
         if (Input.GetKeyDown(KeyCode.D))
         {
             currentScale.x = 1;
@@ -87,14 +117,7 @@ public class PlayerScript : MonoBehaviour
             transform.Rotate(new Vector3(0, 0, -90 * transform.localScale.x) * Time.deltaTime);
         }
 
-        //if (transform.eulerAngles.z > 45f && transform.eulerAngles.z < 50f)
-        //{
-        //    transform.eulerAngles = new Vector3(0, 0, 45);
-        //}
-        //if(transform.eulerAngles.z < 315f && transform.eulerAngles.z > 310f)
-        //{
-        //    transform.eulerAngles = new Vector3(0, 0, -45f);
-        //}
+        rb.angularVelocity = Mathf.Clamp(rb.angularVelocity,-30f,30f);
         
         if(rb.linearVelocity.y > 3f)
         {
@@ -110,19 +133,60 @@ public class PlayerScript : MonoBehaviour
     {
         jarTime += Time.deltaTime;
 
-        if(jarTime > 1.4f && jarFill > 0)
+        if(jarTime > 2.5f && jarFill > 0)
         {
             jarFill -= 1;
             jarTime = 0f;
         }
 
     }
+
+    void Hurt()
+    {
+        if(damageTaken)
+        {
+            
+            audioSource.PlayOneShot(hurtClip);
+            Color currentColor = screenHurt.color;
+            if(currentColor.a < 1)
+            {
+                currentColor.a += 1f;
+                screenHurt.color = currentColor;
+            }
+            else
+            {
+                health -= 1;
+                ps2.Play();
+                damageTaken = false;
+            }
+        }
+        else
+        {
+            Color currentColor = screenHurt.color;
+            if(currentColor.a > 0 && health > 1)
+            {
+                currentColor.a -= .005f;
+                screenHurt.color = currentColor;
+            }
+        }
+
+        if(health == 0)
+        {
+            
+            dead = true;
+        }
+        
+    }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Pollen"))
         {
             ps.Play();
-            audioSource.PlayOneShot(clip);
+            audioSource.PlayOneShot(collectClip);
+        }
+        if (collision.gameObject.CompareTag("Ground") || collision.gameObject.CompareTag("Wasp"))
+        {
+            damageTaken = true;
         }
     }
 }

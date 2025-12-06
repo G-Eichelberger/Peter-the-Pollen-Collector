@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1207234884677573728}
   - component: {fileID: 6447648955755239836}
   - component: {fileID: -8688902017570739939}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: PollenPickup
   m_TagString: Pollen
   m_Icon: {fileID: 0}
@@ -79,9 +79,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -464152429
-  m_SortingLayer: 2
-  m_SortingOrder: 1
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
   m_Sprite: {fileID: 2709494276026957313, guid: 5d826ef308f53d54491e5d75b936dd81, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -314,7 +314,7 @@ GameObject:
   - component: {fileID: 6862143266249306489}
   - component: {fileID: 3863389168605300367}
   - component: {fileID: 5270831373501844049}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Particle System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
